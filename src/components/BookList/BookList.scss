@@ -1,0 +1,20 @@
+.book-list {
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+
+      button {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
