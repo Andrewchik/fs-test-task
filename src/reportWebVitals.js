@@ -1,6 +1,12 @@
-const reportWebVitals = (onPerfEntry) => {
-  if (onPerfEntry && onPerfEntry instanceof Function) {
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+function reportWebVitals(onPerfEntry) {
+  if (onPerfEntry && typeof onPerfEntry === 'function') {
+    require('web-vitals').then(function (webVitals) {
+      var getCLS = webVitals.getCLS,
+        getFID = webVitals.getFID,
+        getFCP = webVitals.getFCP,
+        getLCP = webVitals.getLCP,
+        getTTFB = webVitals.getTTFB;
+
       getCLS(onPerfEntry);
       getFID(onPerfEntry);
       getFCP(onPerfEntry);
@@ -8,6 +14,6 @@ const reportWebVitals = (onPerfEntry) => {
       getTTFB(onPerfEntry);
     });
   }
-};
+}
 
-export default reportWebVitals;
+module.exports = reportWebVitals;
