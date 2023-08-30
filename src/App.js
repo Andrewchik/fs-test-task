@@ -5,11 +5,11 @@ import './App.css';
 
 function App() {
   return (
-      <div className="App">
-        <h1>Book Collection</h1>
-        <BookList />
-        <BookForm />
-      </div>
+    <div className="App">
+      <h1>Book Collection</h1>
+      <BookList />
+      <BookForm />
+    </div>
   );
 }
 
