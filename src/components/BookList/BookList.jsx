@@ -13,7 +13,7 @@ function BookList() {
 
     return (
         <div className="book-list">
-            <h2>Book List</h2>
+            <h2 className="font-bold underline">Book List</h2>
             <ul>
                 {books.map(book => (
                     <li key={book.id}>
