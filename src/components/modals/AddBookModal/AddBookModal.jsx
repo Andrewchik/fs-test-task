@@ -44,19 +44,17 @@ export default function AddBookModal({ open, setOpen }) {
                         <form className="space-y-6" action="#" method="POST">
                           <div>
                             <label
-                              htmlFor="email"
+                              htmlFor="text"
                               className="block text-sm font-medium leading-6 text-gray-900"
                             >
                               Title
                             </label>
                             <div className="mt-2">
                               <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                id="text"
+                                name="text"
+                                type="text"
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                               />
                             </div>
                           </div>
@@ -77,7 +75,7 @@ export default function AddBookModal({ open, setOpen }) {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                               />
                             </div>
                           </div>
