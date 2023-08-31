@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -9,6 +9,7 @@ import BookList from './components/BookList/BookList';
 import MyBooksList from './components/MyBooksList/MyBooksList';
 import Header from './components/Header/Header';
 import AddBookModal from './components/modals/AddBookModal/AddBookModal';
+import axios from 'axios';
 
 const user = {
   name: 'Tom Cook',
@@ -21,6 +22,7 @@ export default function App() {
   const location = useLocation();
 
   const [open, setOpen] = useState(false);
+  const [books, setBooks] = useState([]);
 
   const isMyBooksPage = location.pathname === '/my-books';
 
@@ -35,6 +37,17 @@ export default function App() {
     { name: 'Sign out', href: '#' },
   ];
 
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/books')
+      .then(({ data }) => {
+        setBooks(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div className="min-h-full">
       <Header
@@ -46,7 +59,7 @@ export default function App() {
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/" element={<BookList />} />
+            <Route path="/" element={<BookList books={books} />} />
             <Route path="/my-books" element={<MyBooksList />} />
           </Routes>
         </div>
