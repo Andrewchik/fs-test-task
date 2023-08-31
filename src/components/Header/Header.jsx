@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
-function Header({ user, navigation, userNavigation }) {
+function Header({ user, navigation, userNavigation, setOpen }) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
@@ -46,7 +46,10 @@ function Header({ user, navigation, userNavigation }) {
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
                     <span className="sr-only">View notifications</span>
-                    <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 cursor-pointer">
+                    <span
+                      onClick={() => setOpen(true)}
+                      className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 cursor-pointer"
+                    >
                       Add book
                     </span>
                     {/* Profile dropdown */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,8 +6,9 @@ import {
   useLocation,
 } from 'react-router-dom';
 import BookList from './components/BookList/BookList';
-import MyBooksList from './components/MyBooksList/MyBooksList'; // Import your MyBooksList component
+import MyBooksList from './components/MyBooksList/MyBooksList';
 import Header from './components/Header/Header';
+import AddBookModal from './components/modals/AddBookModal/AddBookModal';
 
 const user = {
   name: 'Tom Cook',
@@ -18,6 +19,9 @@ const user = {
 
 export default function App() {
   const location = useLocation();
+
+  const [open, setOpen] = useState(false);
+
   const isMyBooksPage = location.pathname === '/my-books';
 
   const navigation = [
@@ -37,6 +41,7 @@ export default function App() {
         user={user}
         navigation={navigation}
         userNavigation={userNavigation}
+        setOpen={setOpen}
       />
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
@@ -46,6 +51,8 @@ export default function App() {
           </Routes>
         </div>
       </main>
+
+      <AddBookModal open={open} setOpen={setOpen} />
     </div>
   );
 }
