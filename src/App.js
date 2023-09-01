@@ -24,10 +24,6 @@ export default function App() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { books } = useSelector((state) => state.books);
-
-  console.log(books);
-
   const [open, setOpen] = useState(false);
 
   const isMyBooksPage = location.pathname === '/my-books';
@@ -65,7 +61,7 @@ export default function App() {
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/" element={<BookList books={books} />} />
+            <Route path="/" element={<BookList />} />
             <Route path="/my-books" element={<MyBooksList />} />
           </Routes>
         </div>
