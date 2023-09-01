@@ -10,6 +10,8 @@ import MyBooksList from './components/MyBooksList/MyBooksList';
 import Header from './components/Header/Header';
 import AddBookModal from './components/modals/AddBookModal/AddBookModal';
 import axios from 'axios';
+import { setBooksList } from './redux/actions/books.action';
+import { useDispatch, useSelector } from 'react-redux';
 
 const user = {
   name: 'Tom Cook',
@@ -20,9 +22,13 @@ const user = {
 
 export default function App() {
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const { books } = useSelector((state) => state.books);
+
+  console.log(books);
 
   const [open, setOpen] = useState(false);
-  const [books, setBooks] = useState([]);
 
   const isMyBooksPage = location.pathname === '/my-books';
 
@@ -41,12 +47,12 @@ export default function App() {
     axios
       .get('https://test-sercer.onrender.com/api/books')
       .then(({ data }) => {
-        setBooks(data);
+        dispatch(setBooksList(data));
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="min-h-full">
