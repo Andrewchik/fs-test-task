@@ -1,9 +1,43 @@
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
 
 export default function AddBookModal({ open, setOpen }) {
   const cancelButtonRef = useRef(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
+
+  const handleSave = async () => {
+    try {
+      // Get the values of the form fields
+      const title = document.getElementById('text').value;
+      const description = document.getElementById('description').value;
+      const author = document.getElementById('text').value;
+
+      // Create an object with the data to be sent
+      const bookData = {
+        title,
+        description,
+        author,
+      };
+
+      // Send a POST request to the specified URL
+      const response = await axios.post(
+        'https://test-sercer.onrender.com/api/create-book',
+        bookData
+      );
+
+      // Handle the response here (e.g., show a success message)
+      console.log('Book created:', response.data);
+
+      // Close the modal
+      setOpen(false);
+    } catch (error) {
+      // Handle any errors here (e.g., show an error message)
+      console.error('Error creating book:', error);
+    }
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -54,6 +88,8 @@ export default function AddBookModal({ open, setOpen }) {
                                 id="text"
                                 name="text"
                                 type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                               />
                             </div>
@@ -62,7 +98,7 @@ export default function AddBookModal({ open, setOpen }) {
                           <div>
                             <div className="flex items-center justify-between">
                               <label
-                                htmlFor="password"
+                                htmlFor="description"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                               >
                                 Description
@@ -70,17 +106,34 @@ export default function AddBookModal({ open, setOpen }) {
                             </div>
                             <div className="mt-2">
                               <textarea
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
+                                id="description"
+                                name="description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                               />
                             </div>
                           </div>
 
-                          <div></div>
+                          <div>
+                            <label
+                              htmlFor="text"
+                              className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                              Author
+                            </label>
+                            <div className="mt-2">
+                              <input
+                                id="text"
+                                name="text"
+                                type="text"
+                                value={author}
+                                onChange={(e) => setAuthor(e.target.value)}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                              />
+                            </div>
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -90,7 +143,7 @@ export default function AddBookModal({ open, setOpen }) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={() => handleSave()}
                   >
                     Save
                   </button>
