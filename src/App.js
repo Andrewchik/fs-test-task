@@ -39,7 +39,7 @@ export default function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/books')
+      .get('https://test-sercer.onrender.com/api/books')
       .then(({ data }) => {
         setBooks(data);
       })
