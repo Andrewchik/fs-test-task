@@ -1,8 +1,11 @@
 import { Fragment, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
+import { setBooksList } from '../../../redux/actions/books.action';
 
 export default function AddBookModal({ open, setOpen }) {
+  const dispatch = useDispatch();
   const cancelButtonRef = useRef(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -10,11 +13,6 @@ export default function AddBookModal({ open, setOpen }) {
 
   const handleSave = async () => {
     try {
-      // Get the values of the form fields
-      const title = document.getElementById('text').value;
-      const description = document.getElementById('description').value;
-      const author = document.getElementById('text').value;
-
       // Create an object with the data to be sent
       const bookData = {
         title,
@@ -22,7 +20,7 @@ export default function AddBookModal({ open, setOpen }) {
         author,
       };
 
-      // Send a POST request to the specified URL
+      // Send a POST request to create the book
       const response = await axios.post(
         'https://test-sercer.onrender.com/api/create-book',
         bookData
@@ -33,6 +31,17 @@ export default function AddBookModal({ open, setOpen }) {
 
       // Close the modal
       setOpen(false);
+
+      setTimeout(() => {
+        axios
+          .get('https://test-sercer.onrender.com/api/books')
+          .then(({ data }) => {
+            dispatch(setBooksList(data));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 1300);
     } catch (error) {
       // Handle any errors here (e.g., show an error message)
       console.error('Error creating book:', error);
