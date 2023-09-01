@@ -13,23 +13,19 @@ export default function AddBookModal({ open, setOpen }) {
 
   const handleSave = async () => {
     try {
-      // Create an object with the data to be sent
       const bookData = {
         title,
         description,
         author,
       };
 
-      // Send a POST request to create the book
       const response = await axios.post(
-        'https://test-sercer.onrender.com/api/create-book',
+        'https://test-sercer.onrender.com/api/books/create',
         bookData
       );
 
-      // Handle the response here (e.g., show a success message)
       console.log('Book created:', response.data);
 
-      // Close the modal
       setOpen(false);
 
       setTimeout(() => {
@@ -43,7 +39,6 @@ export default function AddBookModal({ open, setOpen }) {
           });
       }, 1300);
     } catch (error) {
-      // Handle any errors here (e.g., show an error message)
       console.error('Error creating book:', error);
     }
   };
