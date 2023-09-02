@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 function Header({
   user,
@@ -23,10 +22,12 @@ function Header({
 
   const isMyBooksPage = location.pathname === '/my-books';
 
-  const navigation = [
-    { name: 'Book list', href: '/', current: !isMyBooksPage },
-    { name: 'My books', href: '/my-books', current: isMyBooksPage },
-  ];
+  const navigation = isTokenAvailable
+    ? [
+        { name: 'Book list', href: '/', current: !isMyBooksPage },
+        { name: 'My books', href: '/my-books', current: isMyBooksPage },
+      ]
+    : [{ name: 'Book list', href: '/', current: !isMyBooksPage }];
 
   const userNavigation = isTokenAvailable
     ? [{ name: 'Sign out', onClick: () => handleLogOut() }]

@@ -5,7 +5,7 @@ import AddIcon from '../../images/addIcon.png';
 
 import './BookList.scss';
 
-function BookList() {
+function BookList({ isTokenAvailable }) {
   const { books } = useSelector((state) => state.books);
 
   const handleAddToMyBook = () => {};
@@ -34,12 +34,14 @@ function BookList() {
                 <p className="text-sm leading-6 text-gray-900">{item.author}</p>
               </div>
             </div>
-            <div
-              onClick={() => handleAddToMyBook()}
-              className="add-icon shrink-0 sm:flex sm:flex-col sm:items-end cursor-pointer"
-            >
-              <img src={AddIcon} alt="add" />
-            </div>
+            {isTokenAvailable && (
+              <div
+                onClick={() => handleAddToMyBook()}
+                className="add-icon shrink-0 sm:flex sm:flex-col sm:items-end cursor-pointer"
+              >
+                <img src={AddIcon} alt="add" />
+              </div>
+            )}
           </li>
         );
       })}

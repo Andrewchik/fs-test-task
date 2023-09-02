@@ -13,6 +13,8 @@ import axios from 'axios';
 import { setBooksList } from './redux/actions/books.action';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from './components/modals/AuthModal/AuthModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const user = {
   name: 'Tom Cook',
@@ -56,10 +58,17 @@ export default function App() {
         const token = response.data.token;
         localStorage.setItem('token', token);
 
+        toast.success('Success', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+
         setTokenAvailable(true);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.response?.data.message || 'Authentication failed', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       console.error(error.response?.data.message || 'Authentication failed');
     }
   };
@@ -76,7 +85,10 @@ export default function App() {
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/" element={<BookList />} />
+            <Route
+              path="/"
+              element={<BookList isTokenAvailable={isTokenAvailable} />}
+            />
             <Route path="/my-books" element={<MyBooksList />} />
           </Routes>
         </div>
@@ -93,6 +105,8 @@ export default function App() {
           password={password}
         />
       )}
+
+      <ToastContainer />
     </div>
   );
 }
