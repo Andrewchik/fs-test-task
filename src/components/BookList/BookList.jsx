@@ -1,14 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToMyBooks } from '../../redux/actions/books.action';
 
 import AddIcon from '../../images/addIcon.png';
 
 import './BookList.scss';
 
-function BookList({ isTokenAvailable }) {
+function BookList({
+  isTokenAvailable,
+  setSelectedAmountBooks,
+  selectedAmountBooks,
+}) {
   const { books } = useSelector((state) => state.books);
+  const dispatch = useDispatch();
 
-  const handleAddToMyBook = () => {};
+  const handleAddToMyBook = (book) => {
+    setSelectedAmountBooks(selectedAmountBooks + 1);
+    dispatch(addToMyBooks(book._id));
+  };
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
@@ -36,7 +45,7 @@ function BookList({ isTokenAvailable }) {
             </div>
             {isTokenAvailable && (
               <div
-                onClick={() => handleAddToMyBook()}
+                onClick={() => handleAddToMyBook(item)}
                 className="add-icon shrink-0 sm:flex sm:flex-col sm:items-end cursor-pointer"
               >
                 <img src={AddIcon} alt="add" />

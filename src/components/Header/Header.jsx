@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+
+import './Header.scss';
 
 function Header({
   user,
@@ -10,6 +12,8 @@ function Header({
   setOpenAuthModal,
   isTokenAvailable,
   setTokenAvailable,
+  selectedAmountBooks,
+  setSelectedAmountBooks,
 }) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -69,7 +73,15 @@ function Header({
                           )}
                           aria-current={item.current ? 'page' : undefined}
                         >
-                          {item.name}
+                          <div className="flex">
+                            {item.name}
+                            {item.href === '/my-books' &&
+                              selectedAmountBooks !== 0 && (
+                                <div className="cyrcle ml-2 items-center">
+                                  <span>{selectedAmountBooks}</span>
+                                </div>
+                              )}
+                          </div>
                         </Link>
                       ))}
                     </div>
@@ -164,7 +176,15 @@ function Header({
                     )}
                     aria-current={item.current ? 'page' : undefined}
                   >
-                    {item.name}
+                    <div className="flex">
+                      {item.name}
+                      {item.href === '/my-books' &&
+                        selectedAmountBooks !== 0 && (
+                          <div className="cyrcle ml-2 items-center">
+                            <span>{selectedAmountBooks}</span>
+                          </div>
+                        )}
+                    </div>
                   </Disclosure.Button>
                 ))}
               </div>

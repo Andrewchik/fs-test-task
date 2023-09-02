@@ -31,6 +31,7 @@ export default function App() {
   const [openAuthModal, setOpenAuthMoadl] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedAmountBooks, setSelectedAmountBooks] = useState(0);
 
   const [isTokenAvailable, setTokenAvailable] = useState(
     !!localStorage.getItem('token')
@@ -81,15 +82,27 @@ export default function App() {
         setOpenAuthModal={setOpenAuthMoadl}
         isTokenAvailable={isTokenAvailable}
         setTokenAvailable={setTokenAvailable}
+        selectedAmountBooks={selectedAmountBooks}
       />
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
             <Route
               path="/"
-              element={<BookList isTokenAvailable={isTokenAvailable} />}
+              element={
+                <BookList
+                  isTokenAvailable={isTokenAvailable}
+                  selectedAmountBooks={selectedAmountBooks}
+                  setSelectedAmountBooks={setSelectedAmountBooks}
+                />
+              }
             />
-            <Route path="/my-books" element={<MyBooksList />} />
+            <Route
+              path="/my-books"
+              element={
+                <MyBooksList setSelectedAmountBooks={setSelectedAmountBooks} />
+              }
+            />
           </Routes>
         </div>
       </main>
