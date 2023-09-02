@@ -86,6 +86,11 @@ function Header({
                         Add book
                       </span>
                     )}
+                    {isTokenAvailable && (
+                      <span className="ml-2 text-white decoration-white">
+                        Hello, Admin
+                      </span>
+                    )}
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
