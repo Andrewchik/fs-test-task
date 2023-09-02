@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from './components/modals/AuthModal/AuthModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EditBookModal from './components/modals/EditBookModal/EditBookModal';
 
 const user = {
   name: 'Tom Cook',
@@ -28,10 +29,16 @@ export default function App() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [openAuthModal, setOpenAuthMoadl] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [selectedAmountBooks, setSelectedAmountBooks] = useState(0);
+  const [selectedMyBook, setSelectedMyBook] = useState('');
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
 
   const [isTokenAvailable, setTokenAvailable] = useState(
     !!localStorage.getItem('token')
@@ -100,14 +107,41 @@ export default function App() {
             <Route
               path="/my-books"
               element={
-                <MyBooksList setSelectedAmountBooks={setSelectedAmountBooks} />
+                <MyBooksList
+                  setSelectedAmountBooks={setSelectedAmountBooks}
+                  setOpenEdit={setOpenEdit}
+                  setTitle={setTitle}
+                  setDescription={setDescription}
+                  setAuthor={setAuthor}
+                  setSelectedMyBook={setSelectedMyBook}
+                />
               }
             />
           </Routes>
         </div>
       </main>
 
-      <AddBookModal open={open} setOpen={setOpen} />
+      <AddBookModal
+        open={open}
+        setOpen={setOpen}
+        setTitle={setTitle}
+        title={title}
+        setDescription={setDescription}
+        description={description}
+        setAuthor={setAuthor}
+        author={author}
+      />
+      <EditBookModal
+        open={openEdit}
+        setOpen={setOpenEdit}
+        setTitle={setTitle}
+        title={title}
+        setDescription={setDescription}
+        description={description}
+        setAuthor={setAuthor}
+        author={author}
+        selectedMyBook={selectedMyBook}
+      />
       {openAuthModal && (
         <AuthModal
           handleLogIn={handleLogIn}

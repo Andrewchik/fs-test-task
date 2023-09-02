@@ -1,10 +1,9 @@
 import { Fragment, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
-import { setBooksList } from '../../../redux/actions/books.action';
 
-export default function AddBookModal({
+export default function EditBookModal({
   open,
   setOpen,
   setTitle,
@@ -13,40 +12,30 @@ export default function AddBookModal({
   description,
   setAuthor,
   author,
+  selectedMyBook,
 }) {
-  const dispatch = useDispatch();
   const cancelButtonRef = useRef(null);
 
-  const handleSave = async () => {
-    try {
-      const bookData = {
-        title,
-        description,
-        author,
-      };
+  const handleEditMyBook = (updatedData) => {
+    console.log(selectedMyBook);
+    console.log(updatedData);
+    return axios
+      .put(`http://localhost:5000/api/books/${selectedMyBook}`, updatedData)
+      .then((response) => {
+        toast.success('Book updated', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
 
-      const response = await axios.post(
-        'https://test-sercer.onrender.com/api/books/create',
-        bookData
-      );
+        setOpen(false);
 
-      console.log('Book created:', response.data);
-
-      setOpen(false);
-
-      setTimeout(() => {
-        axios
-          .get('https://test-sercer.onrender.com/api/books')
-          .then(({ data }) => {
-            dispatch(setBooksList(data));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 1300);
-    } catch (error) {
-      console.error('Error creating book:', error);
-    }
+        return response.data;
+      })
+      .catch((error) => {
+        console.error('Error updating book:', error);
+        toast.error('Error updating book:', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
   };
 
   return (
@@ -153,9 +142,15 @@ export default function AddBookModal({
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                    onClick={() => handleSave()}
+                    onClick={() =>
+                      handleEditMyBook({
+                        title,
+                        description,
+                        author,
+                      })
+                    }
                   >
-                    Create
+                    Save
                   </button>
                 </div>
               </Dialog.Panel>

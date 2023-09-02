@@ -1,12 +1,29 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import EditIcon from '../../images/edit.png';
 
-function MyBooksList({ setSelectedAmountBooks }) {
+function MyBooksList({
+  setSelectedAmountBooks,
+  setOpenEdit,
+  setTitle,
+  setDescription,
+  setAuthor,
+  setSelectedMyBook,
+}) {
   const { myBooks } = useSelector((state) => state.books);
 
   useEffect(() => {
     setSelectedAmountBooks(0);
   }, []);
+
+  const handleEditMyBook = (item) => {
+    console.log(item._id);
+    setOpenEdit(true);
+    setTitle(item.title);
+    setDescription(item.description);
+    setAuthor(item.author);
+    setSelectedMyBook(item._id);
+  };
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
@@ -31,6 +48,12 @@ function MyBooksList({ setSelectedAmountBooks }) {
                 </p>
                 <p className="text-sm leading-6 text-gray-900">{item.author}</p>
               </div>
+            </div>
+            <div
+              onClick={() => handleEditMyBook(item)}
+              className="add-icon shrink-0 sm:flex sm:flex-col sm:items-end cursor-pointer"
+            >
+              <img src={EditIcon} alt="add" />
             </div>
           </li>
         );
