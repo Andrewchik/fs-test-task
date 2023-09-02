@@ -2,6 +2,7 @@ import {
   BOOKS_LIST,
   ADD_TO_MY_BOOKS,
   REMOVE_FROM_BOOKS,
+  MY_BOOKS,
 } from '../actions/books.action';
 
 const initialState = {
@@ -13,6 +14,9 @@ const booksReducer = (state = initialState, action) => {
   switch (action.type) {
     case BOOKS_LIST:
       return { ...state, books: action.payload };
+
+    case MY_BOOKS:
+      return { ...state, myBooks: action.payload };
 
     case ADD_TO_MY_BOOKS:
       const bookToAdd = state.books.find((book) => book._id === action.payload);

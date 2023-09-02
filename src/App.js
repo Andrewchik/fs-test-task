@@ -10,7 +10,7 @@ import MyBooksList from './components/MyBooksList/MyBooksList';
 import Header from './components/Header/Header';
 import AddBookModal from './components/modals/AddBookModal/AddBookModal';
 import axios from 'axios';
-import { setBooksList } from './redux/actions/books.action';
+import { setBooksList, setMyBooks } from './redux/actions/books.action';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthModal from './components/modals/AuthModal/AuthModal';
 import { ToastContainer, toast } from 'react-toastify';
@@ -49,6 +49,17 @@ export default function App() {
       .get('https://test-sercer.onrender.com/api/books')
       .then(({ data }) => {
         dispatch(setBooksList(data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dispatch]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/books/my')
+      .then(({ data }) => {
+        dispatch(setMyBooks(data));
       })
       .catch((error) => {
         console.log(error);

@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToMyBooks } from '../../redux/actions/books.action';
+import { toast } from 'react-toastify';
 
 import AddIcon from '../../images/addIcon.png';
 
@@ -17,6 +19,19 @@ function BookList({
   const handleAddToMyBook = (book) => {
     setSelectedAmountBooks(selectedAmountBooks + 1);
     dispatch(addToMyBooks(book._id));
+
+    axios
+      .delete(`http://localhost:5000/api/books/${book._id}`)
+      .then(() => {
+        toast.success('You have added a book', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      })
+      .catch((error) => {
+        toast.error('Error added a book', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
   };
 
   return (

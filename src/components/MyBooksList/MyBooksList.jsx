@@ -10,7 +10,7 @@ function MyBooksList({
   setAuthor,
   setSelectedMyBook,
 }) {
-  const { myBooks } = useSelector((state) => state.books);
+  const myBooks = useSelector((state) => state.books.myBooks);
 
   useEffect(() => {
     setSelectedAmountBooks(0);

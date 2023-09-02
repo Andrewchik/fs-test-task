@@ -1,7 +1,9 @@
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { setMyBooks } from '../../../redux/actions/books.action';
 
 export default function EditBookModal({
   open,
@@ -14,17 +16,27 @@ export default function EditBookModal({
   author,
   selectedMyBook,
 }) {
+  const dispatch = useDispatch();
   const cancelButtonRef = useRef(null);
 
   const handleEditMyBook = (updatedData) => {
-    console.log(selectedMyBook);
-    console.log(updatedData);
     return axios
       .put(`http://localhost:5000/api/books/${selectedMyBook}`, updatedData)
       .then((response) => {
         toast.success('Book updated', {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+
+        setTimeout(() => {
+          axios
+            .get('http://localhost:5000/api/books/my')
+            .then(({ data }) => {
+              dispatch(setMyBooks(data));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 1300);
 
         setOpen(false);
 
