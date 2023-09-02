@@ -12,6 +12,7 @@ import AddBookModal from './components/modals/AddBookModal/AddBookModal';
 import axios from 'axios';
 import { setBooksList } from './redux/actions/books.action';
 import { useDispatch, useSelector } from 'react-redux';
+import AuthModal from './components/modals/AuthModal/AuthModal';
 
 const user = {
   name: 'Tom Cook',
@@ -25,19 +26,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-
-  const isMyBooksPage = location.pathname === '/my-books';
-
-  const navigation = [
-    { name: 'Book list', href: '/', current: !isMyBooksPage },
-    { name: 'My books', href: '/my-books', current: isMyBooksPage },
-  ];
-
-  const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
-  ];
+  const [openAuthModal, setOpenAuthMoadl] = useState(false);
 
   useEffect(() => {
     axios
@@ -52,12 +41,7 @@ export default function App() {
 
   return (
     <div className="min-h-full">
-      <Header
-        user={user}
-        navigation={navigation}
-        userNavigation={userNavigation}
-        setOpen={setOpen}
-      />
+      <Header user={user} setOpen={setOpen} />
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
@@ -68,6 +52,7 @@ export default function App() {
       </main>
 
       <AddBookModal open={open} setOpen={setOpen} />
+      {openAuthModal && <AuthModal />}
     </div>
   );
 }

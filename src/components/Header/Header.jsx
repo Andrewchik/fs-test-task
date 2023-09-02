@@ -3,11 +3,41 @@ import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-function Header({ user, navigation, userNavigation, setOpen }) {
+function Header({ user, setOpen }) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
+
+  const handleLogIn = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', {
+        login: 'admin',
+        password: 'admin',
+      });
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+      }
+    } catch (error) {
+      console.log(error);
+      console.error(error.response?.data.message || 'Authentication failed');
+    }
+  };
+
+  const isMyBooksPage = location.pathname === '/my-books';
+
+  const navigation = [
+    { name: 'Book list', href: '/', current: !isMyBooksPage },
+    { name: 'My books', href: '/my-books', current: isMyBooksPage },
+  ];
+
+  const userNavigation = [
+    { name: 'Test log In', href: '#', onclick: () => handleLogIn() },
+    { name: 'Sign out', href: '#', onclick: () => handleLogIn() },
+  ];
 
   return (
     <>
@@ -80,6 +110,7 @@ function Header({ user, navigation, userNavigation, setOpen }) {
                               {({ active }) => (
                                 <Link
                                   to={item.href}
+                                  onClick={() => handleLogIn()}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
                                     'block px-4 py-2 text-sm text-gray-700'
@@ -157,8 +188,6 @@ function Header({ user, navigation, userNavigation, setOpen }) {
                   {userNavigation.map((item) => (
                     <Disclosure.Button
                       key={item.name}
-                      as="a"
-                      href={item.href}
                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                     >
                       {item.name}
