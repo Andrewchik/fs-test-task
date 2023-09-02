@@ -1,30 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function Header({ user, setOpen }) {
+function Header({
+  user,
+  setOpen,
+  setOpenAuthModal,
+  isTokenAvailable,
+  setTokenAvailable,
+}) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
 
-  const handleLogIn = async () => {
-    try {
-      const response = await axios.post('http://localhost:5000/auth/login', {
-        login: 'admin',
-        password: 'admin',
-      });
-
-      if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem('token', token);
-      }
-    } catch (error) {
-      console.log(error);
-      console.error(error.response?.data.message || 'Authentication failed');
-    }
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    setTokenAvailable(false);
   };
 
   const isMyBooksPage = location.pathname === '/my-books';
@@ -34,10 +28,16 @@ function Header({ user, setOpen }) {
     { name: 'My books', href: '/my-books', current: isMyBooksPage },
   ];
 
-  const userNavigation = [
-    { name: 'Test log In', href: '#', onclick: () => handleLogIn() },
-    { name: 'Sign out', href: '#', onclick: () => handleLogIn() },
-  ];
+  const userNavigation = isTokenAvailable
+    ? [{ name: 'Sign out', onClick: () => handleLogOut() }]
+    : [
+        {
+          name: 'Log In',
+          onClick: () => {
+            setOpenAuthModal(true);
+          },
+        },
+      ];
 
   return (
     <>
@@ -77,12 +77,15 @@ function Header({ user, setOpen }) {
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
                     <span className="sr-only">View notifications</span>
-                    <span
-                      onClick={() => setOpen(true)}
-                      className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 cursor-pointer"
-                    >
-                      Add book
-                    </span>
+                    {isTokenAvailable && (
+                      <span
+                        onClick={() => setOpen(true)}
+                        className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20 cursor-pointer"
+                      >
+                        Add book
+                      </span>
+                    )}
+
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
                       <div>
@@ -110,7 +113,7 @@ function Header({ user, setOpen }) {
                               {({ active }) => (
                                 <Link
                                   to={item.href}
-                                  onClick={() => handleLogIn()}
+                                  onClick={item.onClick}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
                                     'block px-4 py-2 text-sm text-gray-700'

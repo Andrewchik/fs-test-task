@@ -1,6 +1,13 @@
 import React from 'react';
 
-export default function AuthModal() {
+export default function AuthModal({
+  handleLogIn,
+  setOpenAuthMoadl,
+  setLogin,
+  setPassword,
+  login,
+  password,
+}) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-gray-900 opacity-75"></div>
@@ -17,6 +24,8 @@ export default function AuthModal() {
             <input
               type="text"
               id="login"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
@@ -30,6 +39,8 @@ export default function AuthModal() {
             <input
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
@@ -39,7 +50,7 @@ export default function AuthModal() {
               className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-600"
               onClick={() => {
                 handleLogIn();
-                setShowLoginModal(false);
+                setOpenAuthMoadl(false);
               }}
             >
               Log In

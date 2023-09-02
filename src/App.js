@@ -27,6 +27,12 @@ export default function App() {
 
   const [open, setOpen] = useState(false);
   const [openAuthModal, setOpenAuthMoadl] = useState(false);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [isTokenAvailable, setTokenAvailable] = useState(
+    !!localStorage.getItem('token')
+  );
 
   useEffect(() => {
     axios
@@ -39,9 +45,34 @@ export default function App() {
       });
   }, [dispatch]);
 
+  const handleLogIn = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', {
+        login: login,
+        password: password,
+      });
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+
+        setTokenAvailable(true);
+      }
+    } catch (error) {
+      console.log(error);
+      console.error(error.response?.data.message || 'Authentication failed');
+    }
+  };
+
   return (
     <div className="min-h-full">
-      <Header user={user} setOpen={setOpen} />
+      <Header
+        user={user}
+        setOpen={setOpen}
+        setOpenAuthModal={setOpenAuthMoadl}
+        isTokenAvailable={isTokenAvailable}
+        setTokenAvailable={setTokenAvailable}
+      />
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <Routes>
@@ -52,7 +83,16 @@ export default function App() {
       </main>
 
       <AddBookModal open={open} setOpen={setOpen} />
-      {openAuthModal && <AuthModal />}
+      {openAuthModal && (
+        <AuthModal
+          handleLogIn={handleLogIn}
+          setOpenAuthMoadl={setOpenAuthMoadl}
+          setLogin={setLogin}
+          setPassword={setPassword}
+          login={login}
+          password={password}
+        />
+      )}
     </div>
   );
 }
