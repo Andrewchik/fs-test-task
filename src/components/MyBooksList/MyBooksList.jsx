@@ -17,7 +17,7 @@ function MyBooksList({
   }, []);
 
   const handleEditMyBook = (item) => {
-    console.log(item._id);
+    console.log(item);
     setOpenEdit(true);
     setTitle(item.title);
     setDescription(item.description);
@@ -27,8 +27,8 @@ function MyBooksList({
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {myBooks.map((item, index) => {
-        return (
+      {myBooks.length ? (
+        myBooks.map((item, index) => (
           <li
             key={index}
             className="flex justify-between gap-x-6 py-5 p-2 items-center"
@@ -53,11 +53,13 @@ function MyBooksList({
               onClick={() => handleEditMyBook(item)}
               className="add-icon shrink-0 sm:flex sm:flex-col sm:items-end cursor-pointer"
             >
-              <img src={EditIcon} alt="add" />
+              <img src={EditIcon} alt="edit" />
             </div>
           </li>
-        );
-      })}
+        ))
+      ) : (
+        <h2 className={'no-data'}>No data</h2>
+      )}
     </ul>
   );
 }

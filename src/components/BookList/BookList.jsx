@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToMyBooks } from '../../redux/actions/books.action';
+import { removeFromBooks, setMyBooks } from '../../redux/actions/books.action';
 import { toast } from 'react-toastify';
 
 import AddIcon from '../../images/addIcon.png';
 
 import './BookList.scss';
+import Loader from '../Loader/Loader';
 
 function BookList({
   isTokenAvailable,
@@ -18,14 +19,26 @@ function BookList({
 
   const handleAddToMyBook = (book) => {
     setSelectedAmountBooks(selectedAmountBooks + 1);
-    dispatch(addToMyBooks(book._id));
 
     axios
       .delete(`http://localhost:5000/api/books/${book._id}`)
       .then(() => {
+        dispatch(removeFromBooks(book._id));
+
         toast.success('You have added a book', {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+
+        setTimeout(() => {
+          axios
+            .get('http://localhost:5000/api/books/my')
+            .then(({ data }) => {
+              dispatch(setMyBooks(data));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 1200);
       })
       .catch((error) => {
         toast.error('Error added a book', {
@@ -36,8 +49,8 @@ function BookList({
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {books.map((item, index) => {
-        return (
+      {books.length ? (
+        books.map((item, index) => (
           <li
             key={index}
             className="flex justify-between gap-x-6 py-5 p-2 items-center"
@@ -67,8 +80,10 @@ function BookList({
               </div>
             )}
           </li>
-        );
-      })}
+        ))
+      ) : (
+        <Loader />
+      )}
     </ul>
   );
 }

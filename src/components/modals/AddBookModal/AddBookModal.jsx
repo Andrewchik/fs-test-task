@@ -33,6 +33,9 @@ export default function AddBookModal({
       console.log('Book created:', response.data);
 
       setOpen(false);
+      setTitle('');
+      setDescription('');
+      setAuthor('');
 
       setTimeout(() => {
         axios

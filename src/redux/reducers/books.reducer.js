@@ -15,6 +15,12 @@ const booksReducer = (state = initialState, action) => {
     case BOOKS_LIST:
       return { ...state, books: action.payload };
 
+    case REMOVE_FROM_BOOKS:
+      return {
+        ...state,
+        books: state.books.filter((book) => book._id !== action.payload),
+      };
+
     case MY_BOOKS:
       return { ...state, myBooks: action.payload };
 

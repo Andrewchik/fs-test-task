@@ -8,6 +8,11 @@ export const setBooksList = (data) => ({
   payload: data,
 });
 
+export const removeFromBooks = (bookId) => ({
+  type: REMOVE_FROM_BOOKS,
+  payload: bookId,
+});
+
 export const setMyBooks = (data) => ({
   type: MY_BOOKS,
   payload: data,
