@@ -55,7 +55,7 @@ export default function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/books/my')
+      .get('https://test-sercer.onrender.com/api/books/my')
       .then(({ data }) => {
         dispatch(setMyBooks(data));
       })
@@ -66,10 +66,13 @@ export default function App() {
 
   const handleLogIn = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', {
-        login: login,
-        password: password,
-      });
+      const response = await axios.post(
+        'https://test-sercer.onrender.com/auth/login',
+        {
+          login: login,
+          password: password,
+        }
+      );
 
       if (response.status === 200) {
         const token = response.data.token;

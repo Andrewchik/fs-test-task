@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'https://test-sercer.onrender.com/graphql',
 });
 
 const client = new ApolloClient({

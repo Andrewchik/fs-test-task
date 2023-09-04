@@ -21,7 +21,10 @@ export default function EditBookModal({
 
   const handleEditMyBook = (updatedData) => {
     return axios
-      .put(`http://localhost:5000/api/books/${selectedMyBook}`, updatedData)
+      .put(
+        `https://test-sercer.onrender.com/api/books/${selectedMyBook}`,
+        updatedData
+      )
       .then((response) => {
         toast.success('Book updated', {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -29,7 +32,7 @@ export default function EditBookModal({
 
         setTimeout(() => {
           axios
-            .get('http://localhost:5000/api/books/my')
+            .get('https://test-sercer.onrender.com/api/books/my')
             .then(({ data }) => {
               dispatch(setMyBooks(data));
             })
@@ -52,7 +55,7 @@ export default function EditBookModal({
 
   const handleDeleteMyBook = () => {
     return axios
-      .delete(`http://localhost:5000/api/books/my/${selectedMyBook}`)
+      .delete(`https://test-sercer.onrender.com/api/books/my/${selectedMyBook}`)
       .then((response) => {
         toast.success('Book deleted', {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -60,7 +63,7 @@ export default function EditBookModal({
 
         setTimeout(() => {
           axios
-            .get('http://localhost:5000/api/books/my')
+            .get('https://test-sercer.onrender.com/api/books/my')
             .then(({ data }) => {
               dispatch(setMyBooks(data));
             })
