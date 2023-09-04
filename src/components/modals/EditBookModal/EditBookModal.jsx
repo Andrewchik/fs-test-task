@@ -50,8 +50,6 @@ export default function EditBookModal({
       });
   };
 
-  console.log(selectedMyBook);
-
   const handleDeleteMyBook = () => {
     return axios
       .delete(`http://localhost:5000/api/books/my/${selectedMyBook}`)

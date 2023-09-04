@@ -17,7 +17,6 @@ function MyBooksList({
   }, []);
 
   const handleEditMyBook = (item) => {
-    console.log(item);
     setOpenEdit(true);
     setTitle(item.title);
     setDescription(item.description);

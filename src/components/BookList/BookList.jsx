@@ -8,22 +8,22 @@ import { toast } from 'react-toastify';
 import AddIcon from '../../images/addIcon.png';
 
 import './BookList.scss';
+import { DELETE_BOOK } from '../../graphql/mutations/books.mutation';
 
 function BookList({
   isTokenAvailable,
   setSelectedAmountBooks,
   selectedAmountBooks,
 }) {
+  const [deleteBook] = useMutation(DELETE_BOOK);
   const { books } = useSelector((state) => state.books);
   const dispatch = useDispatch();
-
-  console.log(books);
 
   const handleAddToMyBook = (book) => {
     setSelectedAmountBooks(selectedAmountBooks + 1);
 
-    axios
-      .delete(`http://localhost:5000/api/books/${book.id}`)
+    axios;
+    deleteBook({ variables: { id: book.id } })
       .then(() => {
         dispatch(removeFromBooks(book.id));
 
