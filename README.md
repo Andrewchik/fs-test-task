@@ -39,6 +39,12 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
+### `npm run lint`
+Запускає лінтинг вашого проекту, щоб перевірити стиль коду та виявити можливі проблеми.
+
+### `npm run format`
+Запускає автоматичне форматування вашого коду на основі правил форматування, встановлених у вашому проекті.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
