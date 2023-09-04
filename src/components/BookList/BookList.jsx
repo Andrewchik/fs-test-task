@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useMutation } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromBooks, setMyBooks } from '../../redux/actions/books.action';
 import { toast } from 'react-toastify';
@@ -16,13 +17,15 @@ function BookList({
   const { books } = useSelector((state) => state.books);
   const dispatch = useDispatch();
 
+  console.log(books);
+
   const handleAddToMyBook = (book) => {
     setSelectedAmountBooks(selectedAmountBooks + 1);
 
     axios
       .delete(`http://localhost:5000/api/books/${book.id}`)
       .then(() => {
-        dispatch(removeFromBooks(book._id));
+        dispatch(removeFromBooks(book.id));
 
         toast.success('You have added a book', {
           position: toast.POSITION.BOTTOM_RIGHT,

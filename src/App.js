@@ -12,7 +12,7 @@ import Header from './components/Header/Header';
 import AddBookModal from './components/modals/AddBookModal/AddBookModal';
 import axios from 'axios';
 import { setBooksList, setMyBooks } from './redux/actions/books.action';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AuthModal from './components/modals/AuthModal/AuthModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

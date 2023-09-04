@@ -3,6 +3,7 @@ import {
   ADD_TO_MY_BOOKS,
   REMOVE_FROM_BOOKS,
   MY_BOOKS,
+  REMOVE_FROM_MY_BOOKS,
 } from '../actions/books.action';
 
 const initialState = {
@@ -18,7 +19,7 @@ const booksReducer = (state = initialState, action) => {
     case REMOVE_FROM_BOOKS:
       return {
         ...state,
-        books: state.books.filter((book) => book._id !== action.payload),
+        books: state.books.filter((book) => book.id !== action.payload),
       };
 
     case MY_BOOKS:
@@ -35,18 +36,18 @@ const booksReducer = (state = initialState, action) => {
       }
       return state;
 
-    case REMOVE_FROM_BOOKS:
-      const bookToRemove = state.myBooks.find(
-        (book) => book._id === action.payload
-      );
-      if (bookToRemove) {
-        return {
-          ...state,
-          myBooks: state.myBooks.filter((book) => book._id !== action.payload),
-          books: [...state.books, bookToRemove],
-        };
-      }
-      return state;
+    // case REMOVE_FROM_MY_BOOKS:
+    //   const bookToRemove = state.myBooks.find(
+    //     (book) => book._id === action.payload
+    //   );
+    //   if (bookToRemove) {
+    //     return {
+    //       ...state,
+    //       myBooks: state.myBooks.filter((book) => book._id !== action.payload),
+    //       books: [...state.books, bookToRemove],
+    //     };
+    //   }
+    //   return state;
 
     default:
       return state;

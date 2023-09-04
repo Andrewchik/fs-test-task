@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { setBooksList } from '../../../redux/actions/books.action';
+import { GET_BOOKS } from '../../../graphql/querys/books.query';
+import { useQuery } from '@apollo/client';
 
 export default function AddBookModal({
   open,
@@ -16,40 +18,32 @@ export default function AddBookModal({
 }) {
   const dispatch = useDispatch();
   const cancelButtonRef = useRef(null);
+  const { loading, error, data, refetch } = useQuery(GET_BOOKS);
 
-  const handleSave = async () => {
-    try {
-      const bookData = {
-        title,
-        description,
-        author,
-      };
+  const handleSave = () => {
+    const bookData = {
+      title,
+      description,
+      author,
+    };
 
-      const response = await axios.post(
-        'https://test-sercer.onrender.com/api/books/create',
-        bookData
-      );
+    axios
+      .post('https://test-sercer.onrender.com/api/books/create', bookData)
+      .then((response) => {
+        console.log('Book created:', response.data);
 
-      console.log('Book created:', response.data);
+        setOpen(false);
+        setTitle('');
+        setDescription('');
+        setAuthor('');
 
-      setOpen(false);
-      setTitle('');
-      setDescription('');
-      setAuthor('');
-
-      setTimeout(() => {
-        axios
-          .get('https://test-sercer.onrender.com/api/books')
-          .then(({ data }) => {
-            dispatch(setBooksList(data));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 1300);
-    } catch (error) {
-      console.error('Error creating book:', error);
-    }
+        setTimeout(() => {
+          refetch();
+        }, 1300);
+      })
+      .catch((error) => {
+        console.error('Error creating book:', error);
+      });
   };
 
   return (
