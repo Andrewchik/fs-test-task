@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
 import {
   BrowserRouter as Router,
   Route,
@@ -16,6 +17,7 @@ import AuthModal from './components/modals/AuthModal/AuthModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditBookModal from './components/modals/EditBookModal/EditBookModal';
+import { GET_BOOKS } from './graphql/querys/books.query';
 
 const user = {
   name: 'Tom Cook',
@@ -25,6 +27,7 @@ const user = {
 };
 
 export default function App() {
+  const { loading, error, data } = useQuery(GET_BOOKS);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -45,15 +48,10 @@ export default function App() {
   );
 
   useEffect(() => {
-    axios
-      .get('https://test-sercer.onrender.com/api/books')
-      .then(({ data }) => {
-        dispatch(setBooksList(data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dispatch]);
+    if (data && data.books) {
+      dispatch(setBooksList(data.books));
+    }
+  }, [data, dispatch]);
 
   useEffect(() => {
     axios

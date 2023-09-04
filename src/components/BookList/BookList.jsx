@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import AddIcon from '../../images/addIcon.png';
 
 import './BookList.scss';
-import Loader from '../Loader/Loader';
 
 function BookList({
   isTokenAvailable,
@@ -21,7 +20,7 @@ function BookList({
     setSelectedAmountBooks(selectedAmountBooks + 1);
 
     axios
-      .delete(`http://localhost:5000/api/books/${book._id}`)
+      .delete(`http://localhost:5000/api/books/${book.id}`)
       .then(() => {
         dispatch(removeFromBooks(book._id));
 
@@ -82,7 +81,9 @@ function BookList({
           </li>
         ))
       ) : (
-        <Loader />
+        <h2 className={'no-data'}>
+          {books === null ? 'Network Error' : 'No data'}
+        </h2>
       )}
     </ul>
   );
